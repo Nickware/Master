@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# Read file .dat\n# source data: https://projects.nilu.no//ccc/onlinedata/ozone/\ndatafile = read.table(\"AT0002R_1999.dat\", header=TRUE, skip=3)\n",
+    "created" : 1549719022174.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3295791136",
+    "id" : "7D172357",
+    "lastKnownWriteTime" : 1549719417,
+    "last_content_update" : 1549719417175,
+    "path" : "~/Projects/project-maestria/Tadeo/Segundo_semestre/probabilidad/tarea01/example03.R",
+    "project_path" : "example03.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

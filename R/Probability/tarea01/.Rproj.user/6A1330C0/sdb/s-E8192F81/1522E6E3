@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# Package ggplot\nrequire(ggplot2)\nggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) +  geom_point()\nmyplot <-ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) \nmyplot + geom_point()\nggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + geom_point(size=3)\nggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + geom_point(aes(shape=Species), size=3)",
+    "created" : 1549718966539.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1659768659",
+    "id" : "1522E6E3",
+    "lastKnownWriteTime" : 1549719007,
+    "last_content_update" : 1549719007600,
+    "path" : "~/Projects/project-maestria/Tadeo/Segundo_semestre/probabilidad/tarea01/example04.R",
+    "project_path" : "example04.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
