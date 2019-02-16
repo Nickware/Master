@@ -175,7 +175,7 @@ plot(cuantitativas[,3],cuantitativas[,4], pch=16)
 text(3.8, 8, paste("r",round(cor(cuantitativas[,3],cuantitativas[,4]),3),sep="=")) 
 
 ######### Diapositiva 58 ######
-Fragata<-read.csv("/Users/rodrigogilcastaneda/Dropbox/Estadistica maestría modelado y simulacion/Fragata.csv")
+Fragata<-read.csv("Fragata.csv")
 par(mfrow=c(1, 2))
 hist(Fragata[,1], breaks=6 ,main="Volumen")
 hist(Fragata[,2], breaks=6 ,main="Frecuencia")
