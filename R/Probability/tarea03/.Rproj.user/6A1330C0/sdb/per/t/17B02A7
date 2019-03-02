@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "datosFragata = read.csv(\"DatosEjercicios.csv\", header = TRUE, sep = \",\");\nView(datosFragata)\ncuantitativas<-datosFragata[,c(2,3,5,7)]\nplot(cuantitativas[,4], cuantitativas[,3], ylab=\"Dependiente (Gusanos)\", xlab=\"Independiente (pH)\")\nRegresionLineal<-lm(cuantitativas[,4]~cuantitativas[,3])\nsummary(RegresionLineal)\nlines(cuantitativas[,3],RegresionLineal$fitted.values)\nplot(cuantitativas[,3],RegresionLineal$residuals)\nabline(h=0)",
+    "created" : 1551511932567.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3817297062",
+    "id" : "17B02A7",
+    "lastKnownWriteTime" : 1551502236,
+    "last_content_update" : 1551502236,
+    "path" : "~/Projects/project-maestria/Tadeo/Segundo_semestre/probabilidad/tarea03/script01.R",
+    "project_path" : "script01.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
