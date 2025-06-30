@@ -1,110 +1,89 @@
-# Importando modulos
-
 import matplotlib.pyplot as plt
-import pandas as pd 
+import pandas as pd
 from scipy.io import arff
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
-from mpl_toolkits.mplot3d import Axes3D
+from sklearn.metrics import silhouette_score
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import mutual_info_classif
+from sklearn.preprocessing import StandardScaler
 
-# Cargando la base de datos
-
-def load_data(nombres):
-    data = '../data/seismic-bumps.arff'
-    input_data, input_meta = arff.loadarff(data)
+def load_data(nombres, ruta='../data/seismic-bumps.arff'):
+    input_data, input_meta = arff.loadarff(ruta)
     df = pd.DataFrame(input_data)
     df.columns = nombres
     return df
 
-# Rescribiendo las etiquetas
-    
-nombres = ['seismic',  
-'seismoacoustic', 
-'shift', 
-'genergy', 
-'gpuls', 
-'gdenergy', 
-'gdpuls', 
-'ghazard',
-'nbumps',
-'nbumps2',
-'nbumps3',
-'nbumps4',
-'nbumps5',
-'nbumps6',
-'nbumps7',
-'nbumps89',
-'energy',
-'maxenergy',
-'clase']
+# Nombres de columnas
+nombres = [
+    'seismic', 'seismoacoustic', 'shift', 'genergy', 'gpuls',
+    'gdenergy', 'gdpuls', 'ghazard', 'nbumps', 'nbumps2',
+    'nbumps3', 'nbumps4', 'nbumps5', 'nbumps6', 'nbumps7',
+    'nbumps89', 'energy', 'maxenergy', 'clase'
+]
 
-# Cargando las nuevas equitas, e imprimiendolas
+# Cargar datos
 df = load_data(nombres)
-df.describe()
 
-
-def preprocess_features(df, cols):
-    """transform categorical features"""
-    le = preprocessing.LabelEncoder()
-    for clmn in cols:
-        df[clmn] = le.fit_transform(df[clmn])
-    
-    return df
-
+# Codificar variables categóricas
 cat_cols = ['seismic', 'seismoacoustic', 'shift', 'ghazard', 'clase']
-df = preprocess_features(df, cat_cols)
-for clmn in cat_cols:
-    print(df[clmn].unique)
-    
-X = df.iloc[:, 0:17].values  
-y = df.iloc[:, 18].values
-    
-# Estandarizando los datos a una distribucion normal
-df_standardized = preprocessing.scale(df)
-df_standardized = pd.DataFrame(df_standardized)
+le = preprocessing.LabelEncoder()
+for col in cat_cols:
+    df[col] = le.fit_transform(df[col])
 
-# Encontrando el numero de cluster apropiados
-plt.figure(figsize=(10, 8))
+# Separar características y variable objetivo
+X = df.drop('clase', axis=1)
+y = df['clase']
+
+# Selección de características usando mutual_info_classif
+importance = mutual_info_classif(X, y)
+selected_features_idx = importance.argsort()[-5:]
+selected_features = X.columns[selected_features_idx]
+X_selected = X[selected_features]
+
+# Estandarizar características seleccionadas
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_selected)
+
+# Encontrar número óptimo de clusters con método del codo
 wcss = []
 for i in range(1, 11):
-    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
-    kmeans.fit(df_standardized)
+    kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+    kmeans.fit(X_scaled)
     wcss.append(kmeans.inertia_)
+
+plt.figure(figsize=(10, 8))
 plt.plot(range(1, 11), wcss)
-plt.title('Metodo de Elbow')
-plt.xlabel('Numero de cluster')
+plt.title('Método del Codo para número óptimo de clusters')
+plt.xlabel('Número de clusters')
 plt.ylabel('WCSS')
 plt.show()
 
-# Ajustando los datos mediante el algoritmo K-Means
-kmeans = KMeans(n_clusters = 3, init = 'k-means++', random_state = 42)
-y_kmeans = kmeans.fit_predict(df_standardized)
+# Ajustar K-Means con número de clusters elegido (3)
+kmeans = KMeans(n_clusters=3, init='k-means++', random_state=42)
+y_kmeans = kmeans.fit_predict(X_scaled)
 
-# Inicia el cluster en numero 1 en lugar de 0
-y_kmeans1=y_kmeans
-y_kmeans1=y_kmeans+1
+# Evaluar calidad de clusters con Silhouette Score
+score = silhouette_score(X_scaled, y_kmeans)
+print(f'Silhouette Score: {score:.3f}')
 
-# Nuevo dataframe llamado cluster
-cluster = pd.DataFrame(y_kmeans1)
+# Añadir clusters al DataFrame original
+cluster = pd.DataFrame(y_kmeans + 1, columns=['cluster'])
+df = pd.concat([df, cluster], axis=1)
 
-# Adicionando cluster a al conjunto de datos df
-df['cluster'] = cluster
+# Calcular medias por cluster
+kmeans_mean_cluster = df.groupby('cluster').mean().round(1)
+print('Medias por cluster:')
+print(kmeans_mean_cluster)
 
-# Valor medio de los clusters
-kmeans_mean_cluster = pd.DataFrame(round(df.groupby('cluster').mean(),1))
-print('kmeans_mean_cluster: ', kmeans_mean_cluster)
+# Visualización con PCA
+pca = PCA(n_components=3)
+X_pca = pca.fit_transform(X_scaled)
 
-kmeans = KMeans(n_clusters=3).fit(X)
-centroids = kmeans.cluster_centers_
-	
-# Prediciendo los clusters
-labels = kmeans.predict(X)
-# Obteniendo los centros de los clusters
-C = kmeans.cluster_centers_
-
-# Graficando los clusters obtenidos 
-fig = plt.figure()
-ax = Axes3D(fig)
-ax.scatter(X[:, 0], X[:, 1], X[:, 2])
-ax.scatter(C[:, 0], C[:, 1], C[:, 2])
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+scatter = ax.scatter(X_pca[:, 0], X_pca[:, 1], X_pca[:, 2], c=y_kmeans, cmap='viridis')
+legend1 = ax.legend(*scatter.legend_elements(), title='Clusters')
+ax.add_artist(legend1)
+ax.set_title('Visualización 3D de clusters con PCA')
 plt.show()
