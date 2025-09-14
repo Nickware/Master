@@ -1,6 +1,6 @@
 # Predicción de Sismos con PCA (Corregido con AI)
 
-## **LAS 4 RECOMENDACIONES IMPLEMENTADAS:**
+## **RECOMENDACIONES IMPLEMENTADAS:**
 
 ### 1. **PCA con Varianza Conservada (No 2 componentes arbitrarios)**
 ```python
