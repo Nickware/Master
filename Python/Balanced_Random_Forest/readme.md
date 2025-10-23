@@ -1,7 +1,5 @@
 # **Balanced Random Forest**
 
-## **Qué es Balanced Random Forest**
-
 El **Balanced Random Forest** es una variante del Random Forest tradicional diseñada específicamente para problemas con clases desbalanceadas. Su funcionamiento clave es:
 
 1. **Sub-muestreo inteligente**: Para cada árbol en el bosque, toma una muestra aleatoria de la clase mayoritaria del mismo tamaño que la clase minoritaria.
