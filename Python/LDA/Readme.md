@@ -20,7 +20,7 @@ El código automatiza el pre-procesamiento de datos, el ajuste de hiperparámetr
 - Separa el conjunto en train/test manteniendo la proporción de clases (`stratify`) mediante `train_test_split`.
 
 #### 4. Entrenamiento y validación
-- La función `train_model` realiza una búsqueda en rejilla (`GridSearchCV`) sobre hiperparámetros $$ C $$ y $$ \gamma $$ de una SVM con kernel RBF, usando validación cruzada de 10 pliegues. Hay dos optimizaciones: una por “recall” (sensibilidad), otra por “roc_auc”, ambas relevantes para datos desbalanceados.
+- La función `train_model` realiza una búsqueda en rejilla (`GridSearchCV`) sobre hiperparámetros $ C $ y $ \gamma $ de una SVM con kernel RBF, usando validación cruzada de 10 pliegues. Hay dos optimizaciones: una por “recall” (sensibilidad), otra por “roc_auc”, ambas relevantes para datos desbalanceados.
 - Evalúa el modelo usando precisión (`accuracy_score`), sensibilidad y especificidad, extraídas de la matriz de confusión (`confusion_matrix`).
 
 #### 5. Métricas y salida
