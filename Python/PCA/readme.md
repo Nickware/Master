@@ -1,4 +1,4 @@
-# Predicción de Sismos con PCA (Corregido con AI)
+# Predicción de Sismos con PCA 
 
 ## **RECOMENDACIONES IMPLEMENTADAS:**
 
