@@ -37,7 +37,7 @@ scatter(y, Ux, 20, 'filled');
 hold on;
 ```
 
-El perfil teórico se modela con una parábola $ U_x(y) = 1 - ((y - h/2)/(h/2))^2 $, lo cual representa la distribución de velocidad en un canal simétrico donde la velocidad máxima ocurre en el centro y cero en las paredes :[2][8]
+El perfil teórico se modela con una parábola $U_x(y)$ $=1-((y-h/2)/(h/2))^2$, lo cual representa la distribución de velocidad en un canal simétrico donde la velocidad máxima ocurre en el centro y cero en las paredes :[2][8]
 
 ```matlab
 Ux_teorico = 1.0 - ((y_teorico - h/2)/(h/2)).^2;
@@ -48,7 +48,7 @@ Esto permite evaluar la concordancia del flujo simulado respecto al comportamien
 ***
 
 ### Subplot 2: Campo vectorial 2D
-La segunda figura muestra el campo de velocidades $ (U_x, U_y) $ sobre el plano XY, ideal para visualizar dirección y magnitud del flujo :[3][9]
+La segunda figura muestra el campo de velocidades $(U_x,U_y)$ sobre el plano XY, ideal para visualizar dirección y magnitud del flujo :[3][9]
 
 ```matlab
 quiver(x(indices), y(indices), Ux(indices), Uy(indices), 0.5, 'b');
