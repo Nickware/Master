@@ -12,7 +12,7 @@ clear; close all; clc;
 data = dlmread('octaveData/velocityData.csv', ',', 1, 0);
 ```
 
-El comando `dlmread` lee el archivo `velocityData.csv`, saltando una fila de encabezado y separando columnas por comas. Los datos suelen contener coordenadas espaciales (x, y, z) y componentes de velocidad (Ux, Uy, Uz) exportados de OpenFOAM.[5][1]
+El comando `dlmread` lee el archivo `velocityData.csv`, saltando una fila de encabezado y separando columnas por comas. Los datos suelen contener coordenadas espaciales (x, y, z) y componentes de velocidad $(Ux,Uy,Uz)$ exportados de OpenFOAM.[5][1
 
 ***
 
