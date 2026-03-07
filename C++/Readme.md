@@ -1,7 +1,49 @@
-# Simulación de un Perfil Parabólico empleando OpenFOAM 
-> Se utiliza Octave para la visualización de los resultados 
+# Simulación de un Perfil Parabólico con OpenFOAM
 
-Se parte de un campo de velocidad simple.
+## Overview
+Este script crea una simulación numérica de un perfil parabólico en flujo estacionario utilizando OpenFOAM. El perfil parabólico se define a lo largo del eje x y puede ser ajustado mediante parámetros como la envergadura, la altura y la curvatura.
+
+## Requerimientos
+- OpenFOAM instalado en tu sistema (Linux o Windows).
+- Herramientas adicionales: `make`, `gcc` u otros dependientes del sistema.
+- Versión de OpenFOAM >= 10.
+
+## Instalación
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/yourusername/parabolic-profile-simulation.git](https://github.com/Nickware/Master.git
+   cd C++/parabolicChannel
+   ```
+2. Instala las dependencias y compila el script:
+   ```bash
+   make all
+   ```
+
+## Uso
+1. Compila y ejecute la simulación:
+   ```bash
+   make run
+   ```
+2. Visualiza los resultados utilizando OpenFOAM's `paraFoam` o herramientas equivalentes.
+
+## Parámetros
+El script admite los siguientes parámetros en el archivo `parabolicProfile.C`:
+
+```bash
+// Eje de referencia (default: 1)
+referenceLength = 1;
+
+// Altura del perfil (default: 0.5)
+height = 0.5;
+
+// Curvatura del perfil (default: 0.5)
+curvature = 0.5;
+```
+
+## Resultados
+Los resultados se guardan en `results/`, incluyendo:
+- Velocidades en puntos específicos.
+- Distribución de presión en la superficie.
 
 # Instrucciones paso a paso
 
