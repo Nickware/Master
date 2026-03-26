@@ -9,18 +9,18 @@ Este script crea una simulación numérica de un perfil parabólico en flujo est
 - Versión de OpenFOAM >= 10.
 
 ## Instalación
-1. Clona el repositorio:
+1. Clonar el repositorio:
    ```bash
    git clone https://github.com/yourusername/parabolic-profile-simulation.git](https://github.com/Nickware/Master.git
    cd C++/parabolicChannel
    ```
-2. Instala las dependencias y compila el script:
+2. Instalar las dependencias y compilar el script:
    ```bash
    make all
    ```
 
 ## Uso
-1. Compila y ejecute la simulación:
+1. Compilar y ejecutar la simulación:
    ```bash
    make run
    ```
