@@ -1,6 +1,6 @@
 # Análisis y visualización de datos de velocidad provenientes de una simulación CFD
 
-Este rutina en Octave (o MATLAB) realiza un análisis y visualización de datos de velocidad provenientes de una simulación CFD (por ejemplo, de OpenFOAM) y genera representaciones gráficas comparativas y vectoriales en 2D y 3D. Combina lectura de datos, extracción de componentes, graficación y comparación con un perfil teórico parabólico de flujo laminar.[1][2][3][4]
+Esta rutina en Octave (o MATLAB) realiza un análisis y visualización de datos de velocidad provenientes de una simulación CFD (por ejemplo, de OpenFOAM) y genera representaciones gráficas comparativas y vectoriales en 2D y 3D. Combina lectura de datos, extracción de componentes, graficación y comparación con un perfil teórico parabólico de flujo laminar.[1][2][3][4]
 
 ***
 
@@ -65,7 +65,7 @@ La figura 3D proporciona una vista vectorial del flujo completo en las tres dime
 quiver3(x(indices), y(indices), z(indices), Ux(indices), Uy(indices), Uz(indices), 0.5);
 ```
 
-En este gráfico, cada flecha está posicionada en `(x,y,z)` y apunta en la dirección del vector velocidad `(Ux,Uy,Uz)`. Se utiliza un muestreo reducido (`1:10`) para optimizar la visualización, y `rotate3d on` permite rotar la vista interactivamente.
+En este gráfico, cada flecha está posicionada en `(x,y,z)` y apunta en la dirección del vector de velocidad `(Ux,Uy,Uz)`. Se utiliza un muestreo reducido (`1:10`) para optimizar la visualización y `rotate3d on` permite rotar la vista interactivamente.
 
 ***
 
@@ -80,7 +80,7 @@ Es especialmente útil para:
 - Análisis de experiencias académicas con OpenFOAM.
 - Validación inicial de mallas CFD y condiciones de contorno.
 
-En resumen, se trata de una herramienta didáctica y visual para vincular teoría (perfil parabólico) con resultados numéricos (datos OpenFOAM), integrando conceptos de dinámica de fluidos y postprocesamiento científico en Octave.[8][2][3]
+En resumen, se trata de una herramienta visual para vincular teoría (perfil parabólico) con resultados numéricos (datos OpenFOAM), integrando conceptos de dinámica de fluidos y postprocesamiento científico en Octave.[8][2][3]
 
 [1](https://www.geeksforgeeks.org/data-visualization/octave-basics-of-plotting-data/)
 [2](https://www.youtube.com/watch?v=_jjYmW8sBNA)
