@@ -1,41 +1,125 @@
 # Shiny
 
-Shiny es un **paquete** de R que permite crear aplicaciones web interactivas usando solo código R, sin necesidad de saber HTML, CSS o JavaScript.[5][8]
+Shiny es un **framework web de R** (también Python desde 2022) que permite crear **aplicaciones web interactivas** directamente desde código R, sin conocimientos de HTML/CSS/JavaScript. [programminghistorian](https://programminghistorian.org/es/lecciones/creacion-de-aplicacion-shiny)
 
-## Qué es Shiny
+## Concepto básico
 
-- Es un framework que conecta código R con una interfaz web (en el navegador) mediante una arquitectura cliente–servidor.[2][3]
-- Permite convertir scripts de análisis, gráficos y modelos en apps “vivas” donde el usuario interactúa con controles y ve resultados en tiempo real.[3][7]
+Shiny transforma análisis de datos estáticos en **aplicaciones dinámicas** donde usuarios pueden:
+- Explorar datos con controles (sliders, dropdowns, botones)
+- Ver gráficos que se actualizan en tiempo real
+- Filtrar tablas masivas interactivamente
+- Simular escenarios ajustando parámetros
 
-## Componentes básicos
+## Estructura de una app Shiny
 
-- **UI (user interface)**: Define la parte visual de la app (layout, botones, sliders, menús, tablas y gráficos).[8][2]
-- **Server**: Define la lógica en R que se ejecuta cuando cambian los inputs y actualiza los outputs (gráficos, tablas, textos).[6][2]
-- Habitualmente se trabaja en un solo archivo `app.R` que contiene `ui` y `server` y se ejecuta con `shiny::runApp()`.[3]
+Cada aplicación tiene **dos componentes principales**:
 
-## Programación reactiva
+```r
+# ui.R - Interfaz de usuario
+library(shiny)
+ui <- fluidPage(
+  titlePanel("Mi primera app Shiny"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("obs", "N° observaciones:", 1, 1000, 500)
+    ),
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
 
-- Shiny se basa en **reactividad**: cuando cambia un input (por ejemplo, un slider o un select), se vuelven a ejecutar solo las partes necesarias del código.[6][3]
-- Esta reactividad se maneja con objetos reactivos (`reactive()`, `reactiveValues()`) y funciones de renderizado como `renderPlot()`, `renderTable()`, `renderText()`, etc.[7][6]
+# server.R - Lógica reactiva
+server <- function(input, output) {
+  output$distPlot <- renderPlot({
+    hist(rnorm(input$obs))
+  })
+}
 
-## Qué se puede hacer con Shiny
+shinyApp(ui = ui, server = server)
+```
 
-- Dashboards de seguimiento (por ejemplo, KPIs, monitorización de modelos, paneles de control de negocio o ciencia de datos).[5][7]
-- Aplicaciones analíticas complejas: mapas interactivos, análisis de redes, modelos de ML donde el usuario sube datos, ajusta parámetros y ve resultados.[8][3]
-- Apps incrustadas en R Markdown / Quarto, en páginas web mediante iframes o desplegadas en servicios como shinyapps.io o en servidores propios.[3][5]
+## Características clave
 
-## Integración y ecosistema
+**Reactividad automática:** Cuando cambias un input → R recalcula automáticamente los outputs dependientes.
 
-- Se integra muy bien con tidyverse (`ggplot2`, `dplyr`, etc.), con paquetes de mapas (`leaflet`) y con librerías de gráficos interactivos como `plotly`.[8][3]
-- Puede extenderse con temas CSS, componentes HTML personalizados y JavaScript para crear interfaces más avanzadas y profesionales.[7][5]
+**Widgets incluidos:** 
+- `sliderInput()`, `selectInput()`, `dateRangeInput()`
+- `plotOutput()`, `tableOutput()`, `verbatimTextOutput()`
+- Botones, checkboxes, radio buttons
 
-[1](https://diegokoz.github.io/intro_ds/clase_6/06_explicacion.nb.html)
-[2](https://cdr-book.github.io/shiny.html)
-[3](https://programminghistorian.org/es/lecciones/creacion-de-aplicacion-shiny)
-[4](https://www.youtube.com/watch?v=DtGfvsM1NMU)
-[5](https://datascience.recursos.uoc.edu/es/shiny/)
-[6](https://bookdown.org/martinmontaneb/claseshiny/Clase.html)
-[7](https://github.com/rstudio/shiny)
-[8](https://bastianolea.rbind.io/blog/r_introduccion/tutorial_shiny_1/)
-[9](https://www.youtube.com/watch?v=AGgN72_l4QE)
-[10](https://www.youtube.com/watch?v=JgQGuWrWcF8)
+**Layouts responsivos:**
+- `fluidPage()`, `sidebarLayout()`
+- `navbarPage()`, `tabsetPanel()`
+- Integración Bootstrap nativa
+
+## Tecnologías subyacentes
+
+| Capa          | Tecnología     |
+|---------------|----------------|
+| Frontend      | HTML5 + CSS3 + JavaScript |
+| Backend       | R (reactivity) + WebSocket |
+| Widgets       | htmlwidgets + D3.js |
+| Despliegue    | shinyapps.io, Posit Connect |
+
+## Casos de uso reales
+
+- **Dashboards ejecutivos:** KPIs interactivos con filtros por fecha/segmento
+- **Simuladores:** Monte Carlo, pronósticos financieros, optimización
+- **Exploradores de datos:** Filtrado de tablas con millones de filas
+- **Mapas interactivos:** `leaflet` + datos R en tiempo real
+- **Reportes dinámicos:** Gráficos que responden a inputs del usuario
+
+## Despliegue
+
+| Plataforma          | Uso típico                    |
+|---------------------|-------------------------------|
+| `runApp()`          | Desarrollo local             |
+| shinyapps.io        | Prototipos públicos (gratis) |
+| Posit Connect       | Enterprise (autenticación)   |
+| Shiny Server        | Autoservido (Linux)          |
+| Docker              | Cloud/DevOps                 |
+
+## Ventajas vs alternativas
+
+| Aspecto           | Shiny (R)          | Streamlit (Python) | Dash (Python) |
+|-------------------|--------------------|--------------------|---------------|
+| Curva aprendizaje | Muy baja (solo R) | Muy baja (solo Py) | Media         |
+| Reactividad       | Automática         | Automática         | Manual        |
+| Widgets           | +100 incluidos     | 30+ incluidos      | Personalizables |
+| Despliegue        | Excelente          | Bueno              | Bueno         |
+
+## Ejemplo completo: Dashboard Baloto
+
+```r
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Analizador Baloto"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("simulaciones", "Simulaciones Monte Carlo:", 10000, 1000, 100000),
+      actionButton("run", "¡Simular!")
+    ),
+    mainPanel(
+      plotOutput("histograma"),
+      verbatimTextOutput("esperanza")
+    )
+  )
+)
+
+server <- function(input, output) {
+  valores <- eventReactive(input$run, {
+    simulacion_baloto(input$simulaciones)
+  })
+  
+  output$histograma <- renderPlot({
+    ggplot(valores(), aes(x = ganancia)) + 
+      geom_histogram() + 
+      labs(title = "Distribución ganancias Baloto")
+  })
+}
+```
+
+**Shiny es perfecto** para data scientists que quieren compartir análisis interactivos con stakeholders sin aprender desarrollo web tradicional. Un dashboard funcional se crea en **30 minutos** desde RStudio. [cdr-book.github](https://cdr-book.github.io/shiny.html)
