@@ -1,119 +1,89 @@
-# Simulación de un Perfil Parabólico con OpenFOAM
+# Simulación de Perfil Parabólico en Flujo Estacionario con OpenFOAM
 
 ## Overview
-Este script crea una simulación numérica de un perfil parabólico en flujo estacionario utilizando OpenFOAM. El perfil parabólico se define a lo largo del eje x y puede ser ajustado mediante parámetros como la envergadura, la altura y la curvatura.
+Implementa una simulación numérica de flujo incompresible alrededor de un perfil parabólico suave, ideal para validar solvers de CFD en geometrías curvas simples. El perfil se parametriza por envergadura, altura y curvatura, generando perfiles analíticos que evitan mallas complejas.
 
-## Requerimientos
-- OpenFOAM instalado en tu sistema (Linux o Windows).
-- Herramientas adicionales: `make`, `gcc` u otros dependientes del sistema.
-- Versión de OpenFOAM >= 10.
+**Aplicaciones típicas:** Validación de numerics, pruebas de convergencia, benchmark de solvers personalizados.
 
-## Instalación
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/yourusername/parabolic-profile-simulation.git](https://github.com/Nickware/Master.git
-   cd C++/parabolicChannel
-   ```
-2. Instalar las dependencias y compilar el script:
-   ```bash
-   make all
-   ```
+## Requisitos
+- OpenFOAM v10+ (probado en v11)
+- GNU Make y gcc/g++
+- Entorno Linux (WSL en Windows funciona bien)
 
-## Uso
-1. Compilar y ejecutar la simulación:
-   ```bash
-   make run
-   ```
-2. Visualiza los resultados utilizando OpenFOAM's `paraFoam` o herramientas equivalentes.
-
-## Parámetros
-El script admite los siguientes parámetros en el archivo `parabolicProfile.C`:
-
+## Instalación Rápida
 ```bash
-// Eje de referencia (default: 1)
-referenceLength = 1;
-
-// Altura del perfil (default: 0.5)
-height = 0.5;
-
-// Curvatura del perfil (default: 0.5)
-curvature = 0.5;
+git clone https://github.com/Nickware/Master.git
+cd C++/parabolicChannel
+make all
 ```
 
-## Resultados
-Los resultados se guardan en `results/`, incluyendo:
-- Velocidades en puntos específicos.
-- Distribución de presión en la superficie.
+## Uso Básico
+```bash
+make run          # Compila, genera malla y ejecuta
+paraFoam -builtin # Visualiza resultados
+```
 
-# Instrucciones paso a paso
+Los resultados se guardan en `results/` con campos de velocidad \( \mathbf{U} \), presión \( p \), y métricas de calidad.
 
-## 1. Configuración del espacio en OpenFOAM
-### 1.1 Crear directorio del caso
->    
-> > mkdir -p $FOAM_RUN/parabolicChannel
-> 
-> > cd $FOAM_RUN/parabolicChannel
+## Parámetros Configurables
+Edita `parabolicProfile.C` para ajustar la geometría:
 
-### 1.2 Crear estructura básica
-> cp -r $FOAM_TUTORIALS/incompressible/simpleFoam/pitzDaily/* .
-> 
-### 1.3 Limpiar caso demo
-> > rm -rf 0 constant/polyMesh system/* dynamicCode
+```cpp
+scalar referenceLength = 1.0;  // Escala del dominio [m]
+scalar height = 0.5;           // Altura máxima del perfil [m] 
+scalar curvature = 0.5;        // Factor de curvatura (0=plano, 1=alta curvatura)
+```
 
-## 2. Implementación de la Geometría
+**Ejemplo de perfil generado:** \( y = h \cdot (1 - (x/L)^2)^c \) donde \( h=\)height, \( c=\)curvature.
 
-### 2.1 Eliminar la malla vieja (si existe)
->    
-> > rm -rf constant/polyMesh
+***
 
-### 2.2 Guardar el nuevo blockMeshDict
->    
-> > nano system/blockMeshDict  
+## Instrucciones Detalladas (Paso a Paso)
 
-### 2.3 Generar la malla
->    
-> > blockMesh
+### 1. Configuración del Caso
+Crea y prepara el directorio base desde el tutorial `pitzDaily`:
 
-### 2.4 Verificar la malla
->    
-> > checkMesh
+```bash
+mkdir -p $FOAM_RUN/parabolicChannel && cd $_
+cp -r $FOAM_TUTORIALS/incompressible/simpleFoam/pitzDaily/* .
+rm -rf 0 constant/polyMesh system/* dynamicCode
+```
 
-### 2.5 Visualización de la Malla 
+### 2. Generación de Malla Parabólica
+Reemplaza `system/blockMeshDict` con la geometría parabólica y genera:
 
-> 1. paraFoam -touch
->    
-> 3. paraFoam -builtin
+```bash
+rm -rf constant/polyMesh
+# Edita system/blockMeshDict con nano/vi
+blockMesh
+checkMesh        # Verifica calidad (non-orthogonality < 70° ideal)
+paraFoam -touch && paraFoam -builtin  # Preview 3D
+```
 
-## 3. Configuración del entorno de desarrollo 
+### 3. Solver Personalizado (Opcional)
+Si necesitas integrar el solver en tu `$FOAM_APP`:
 
-## 3.1 Verificar variables de entorno primero
-Verifica las variables relevantes
+```bash
+# Verifica entorno
+echo $FOAM_APP $FOAM_USER_APPBIN $FOAM_RUN
 
->> echo "FOAM_APP: $FOAM_APP"
-> 
->> echo "FOAM_USER_APPBIN: $FOAM_USER_APPBIN"
-> 
->> echo "FOAM_RUN: $FOAM_RUN"
+# Crea solver directory
+mkdir -p $HOME/OpenFOAM/$WM_PROJECT_VERSION/solvers/parabolicSolver
+export FOAM_USER_APP=$HOME/OpenFOAM/$WM_PROJECT_VERSION/solvers
 
-## 3.2 Creación del directorio del solver
-Crear en tu área de usuario (necesario si no tienes permisos en $FOAM_APP)
+cd $FOAM_USER_APP/parabolicSolver
+mkdir -p Make
+touch Make/{files,options} parabolicFoam.C
+wmake          # Compila solver
+```
 
->> mkdir -p $HOME/OpenFOAM/solvers/parabolicSolver
->
->> export FOAM_USER_APP=$HOME/OpenFOAM/solvers
+### 4. Ejecución y Post-Procesado
+```bash
+simpleFoam      # O tu solver personalizado
+postProcess -func 'wallShearStress'  # Métricas avanzadas
+```
 
-## 3.3  Estructura del directorio del solver
-Navega al directorio creado
->> cd $FOAM_APP/parabolicSolver  # o
->
->> cd $FOAM_USER_APP/parabolicSolver
-
-Crea la estructura necesaria
->> mkdir -p Make
->
->> touch Make/files Make/options
->
->> touch parabolicFoam.C
-
-
-
+**Salidas clave en `results/`:**
+- `U_mag.png`: Magnitud de velocidad en corte central
+- `Cp_distribution.dat`: Coeficiente de presión vs posición
+- `convergence.log`: Residuos de convergencia
