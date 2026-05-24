@@ -23,7 +23,7 @@ make run          # Compila, genera malla y ejecuta
 paraFoam -builtin # Visualiza resultados
 ```
 
-Los resultados se guardan en `results/` con campos de velocidad \( \mathbf{U} \), presión \( p \), y métricas de calidad.
+Los resultados se guardan en `results/` con campos de velocidad $\( \mathbf{U} \)$, presión $\( p \)$, y métricas de calidad.
 
 ## Parámetros Configurables
 Edita `parabolicProfile.C` para ajustar la geometría:
@@ -34,7 +34,7 @@ scalar height = 0.5;           // Altura máxima del perfil [m]
 scalar curvature = 0.5;        // Factor de curvatura (0=plano, 1=alta curvatura)
 ```
 
-**Ejemplo de perfil generado:** \( y = h \cdot (1 - (x/L)^2)^c \) donde \( h=\)height, \( c=\)curvature.
+**Ejemplo de perfil generado:** $\( y = h \cdot (1 - (x/L)^2)^c \)$ donde $\( h=\)$ height, $\( c=\)$ curvature.
 
 ***
 
