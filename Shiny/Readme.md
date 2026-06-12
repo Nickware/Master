@@ -1,6 +1,6 @@
 # Shiny
 
-Shiny es un **framework web de R** (también Python desde 2022) que permite crear **aplicaciones web interactivas** directamente desde código R, sin conocimientos de HTML/CSS/JavaScript. [programminghistorian](https://programminghistorian.org/es/lecciones/creacion-de-aplicacion-shiny)
+Shiny es un **framework web de R** (también Python desde 2022) que permite crear **aplicaciones web interactivas** directamente desde código R, sin conocimientos de HTML/CSS/JavaScript.
 
 ## Concepto básico
 
@@ -122,4 +122,4 @@ server <- function(input, output) {
 }
 ```
 
-**Shiny es perfecto** para data scientists que quieren compartir análisis interactivos con stakeholders sin aprender desarrollo web tradicional. Un dashboard funcional se crea en **30 minutos** desde RStudio. [cdr-book.github](https://cdr-book.github.io/shiny.html)
+**Shiny es perfecto** para data scientists que quieren compartir análisis interactivos con stakeholders sin aprender desarrollo web tradicional. Un dashboard funcional se crea en **30 minutos** desde RStudio.
