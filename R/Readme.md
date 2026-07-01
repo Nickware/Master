@@ -43,16 +43,16 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 
 ## Ventajas competitivas
 
-- **Ecosistema inigualable** para estadística: funciones específicas para cada prueba/método (t-test, ANOVA, regresiones GLS, etc.).
-- **Reproducibilidad**: R Markdown/Quarto para informes automatizados.
-- **Visualización líder**: ggplot2 es estándar mundial en papers científicos.
-- **Comunidad académica**: miles de papers estadísticos incluyen código R.
+- Ecosistema inigualable para estadística: funciones específicas para cada prueba/método (t-test, ANOVA, regresiones GLS, etc.).
+- Reproducibilidad: R Markdown/Quarto para informes automatizados.
+- Visualización líder: ggplot2 es estándar mundial en papers científicos.
+- Comunidad académica: miles de papers estadísticos incluyen código R.
 
 ## Desventajas
 
-- **Curva de aprendizaje pronunciada** para programadores generales.
-- **Rendimiento inferior** a Python/C++ para datos muy grandes (aunque `data.table` mitiga esto).
-- **Gestión de memoria** menos eficiente que lenguajes compilados.
+- Curva de aprendizaje pronunciada para programadores generales.
+- Rendimiento inferior a Python/C++ para datos muy grandes (aunque `data.table` mitiga esto).
+- Gestión de memoria menos eficiente que lenguajes compilados.
 
 ## Comparativa R vs Python
 
