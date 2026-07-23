@@ -12,31 +12,20 @@ Shiny transforma análisis de datos estáticos en **aplicaciones dinámicas** do
 
 ## Estructura de una app Shiny
 
-Cada aplicación tiene **dos componentes principales**:
+Cada aplicación tiene **dos componentes principales** (aunque esta aplicación contiene otra estructura diferente):
 
 ```r
-# ui.R - Interfaz de usuario
-library(shiny)
-ui <- fluidPage(
-  titlePanel("Mi primera app Shiny"),
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("obs", "N° observaciones:", 1, 1000, 500)
-    ),
-    mainPanel(
-      plotOutput("distPlot")
-    )
-  )
-)
+# app.R - Lanzador
+# Shiny detecta automáticamente global.R, ui.R y server.R si corres
+# runApp("baloto_app/") sobre la carpeta completa. Este archivo es opcional
+# y solo sirve como punto de entrada explícito si prefieres source() manual.
 
-# server.R - Lógica reactiva
-server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    hist(rnorm(input$obs))
-  })
-}
+source("global.R")
+source("ui.R")
+source("server.R")
 
 shinyApp(ui = ui, server = server)
+
 ```
 
 ## Características clave
@@ -89,37 +78,26 @@ shinyApp(ui = ui, server = server)
 | Widgets           | +100 incluidos     | 30+ incluidos      | Personalizables |
 | Despliegue        | Excelente          | Bueno              | Bueno         |
 
-## Ejemplo completo: Dashboard Baloto
+## Ejemplo Shiny de este repositorio: Analizador de Aleatoriedad del Baloto
 
 ```r
+# ui.R - Interfaz de usuario
+# Analizador de aleatoriedad del Baloto (verificación estadística,)
+
 library(shiny)
-library(ggplot2)
 
 ui <- fluidPage(
-  titlePanel("Analizador Baloto"),
+  titlePanel("Analizador de Aleatoriedad del Baloto"),
+
   sidebarLayout(
     sidebarPanel(
-      numericInput("simulaciones", "Simulaciones Monte Carlo:", 10000, 1000, 100000),
-      actionButton("run", "¡Simular!")
-    ),
-    mainPanel(
-      plotOutput("histograma"),
-      verbatimTextOutput("esperanza")
-    )
-  )
-)
-
-server <- function(input, output) {
-  valores <- eventReactive(input$run, {
-    simulacion_baloto(input$simulaciones)
-  })
-  
-  output$histograma <- renderPlot({
-    ggplot(valores(), aes(x = ganancia)) + 
-      geom_histogram() + 
-      labs(title = "Distribución ganancias Baloto")
-  })
-}
+      helpText(
+        "Esta app evalúa si el historial de sorteos se comporta como un ",
+        "generador uniforme e independiente. No predice números futuros: ",
+        "los sorteos justos son i.i.d., así que ningún patrón histórico ",
+        "tiene poder predictivo real."
+      ),
+...
 ```
 
-**Shiny es perfecto** para data scientists que quieren compartir análisis interactivos con stakeholders sin aprender desarrollo web tradicional.
+Shiny es un framework ideal para data scientists que quieren compartir análisis interactivos con stakeholders sin aprender desarrollo web tradicional.
