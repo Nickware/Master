@@ -1,16 +1,16 @@
 # Lenguaje R
 
-R es un **lenguaje de programación y entorno de software libre** especializado en **análisis estadístico, visualización de datos y computación científica**.
+R es un lenguaje de programación y entorno de software libre especializado en análisis estadístico, visualización de datos y computación científica.
 
 ## Origen y características principales
 
-- **Creado en 1993** por Ross Ihaka y Robert Gentleman en la Universidad de Auckland (Nueva Zelanda) como implementación libre del lenguaje S.
-- **Interpretado y orientado a objetos**: ejecuta comandos directamente sin compilación previa; todo (datos, funciones, gráficos) se maneja como objetos.
-- **Licencia GNU GPL**: completamente gratuita y de código abierto, con más de **20.000 paquetes** disponibles en CRAN (Comprehensive R Archive Network).
+- Creado en 1993 por Ross Ihaka y Robert Gentleman en la Universidad de Auckland (Nueva Zelanda) como implementación libre del lenguaje S.
+- Interpretado y orientado a objetos: ejecuta comandos directamente sin compilación previa; todo (datos, funciones, gráficos) se maneja como objetos.
+- Licencia GNU GPL: completamente gratuita y de código abierto, con más de 20.000 paquetes disponibles en CRAN (Comprehensive R Archive Network).
 
 ## Capacidades principales
 
-**Análisis estadístico avanzado:**
+Análisis estadístico avanzado:
 - Modelos lineales, logísticos, mixtos, bayesianos
 - Análisis multivariante (PCA, clustering, factor analysis)
 - Series temporales y pronósticos (ARIMA, ETS)
@@ -86,4 +86,4 @@ combinaciones <- choose(43,5) * 16  # 15.401.568
 cat("Probabilidad:", 1/combinaciones, "\n")
 ```
 
-**R es el lenguaje de facto mundial para estadística aplicada**, machine learning reproducible y visualización científica. Su fortaleza radica en la combinación única de potencia estadística + visualización + reproducibilidad en un solo ecosistema. [openwebinars](https://openwebinars.net/blog/introduccion-lenguaje-r/)
+R es el lenguaje de facto mundial para estadística aplicada, machine learning reproducible y visualización científica. Su fortaleza radica en la combinación única de potencia estadística + visualización + reproducibilidad en un solo ecosistema. [openwebinars](https://openwebinars.net/blog/introduccion-lenguaje-r/)
