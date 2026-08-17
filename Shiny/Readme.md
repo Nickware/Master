@@ -1,10 +1,10 @@
 # Shiny
 
-Shiny es un **framework web de R** (también en Python desde 2022) que permite crear **aplicaciones web interactivas** directamente desde código R, sin conocimientos de HTML/CSS/JavaScript.
+Shiny es un framework web de R (también en Python desde 2022) que permite crear aplicaciones web interactivas directamente desde código R, sin conocimientos de HTML/CSS/JavaScript.
 
 ## Concepto básico
 
-Shiny transforma análisis de datos estáticos en **aplicaciones dinámicas** donde usuarios pueden:
+Shiny transforma análisis de datos estáticos en aplicaciones dinámicas donde usuarios pueden:
 - Explorar datos con controles (sliders, dropdowns, botones)
 - Ver gráficos que se actualizan en tiempo real
 - Filtrar tablas masivas interactivamente
@@ -12,7 +12,7 @@ Shiny transforma análisis de datos estáticos en **aplicaciones dinámicas** do
 
 ## Estructura de una app Shiny
 
-Cada aplicación tiene **dos componentes principales** (aunque esta aplicación contiene otra estructura diferente):
+Cada aplicación tiene dos componentes principales (aunque esta aplicación contiene otra estructura diferente):
 
 ```r
 # app.R - Lanzador
@@ -30,14 +30,14 @@ shinyApp(ui = ui, server = server)
 
 ## Características clave
 
-**Reactividad automática:** Cuando cambias un input → R recalcula automáticamente los outputs dependientes.
+Reactividad automática: Cuando cambias un input → R recalcula automáticamente los outputs dependientes.
 
-**Widgets incluidos:** 
+Widgets incluidos:
 - `sliderInput()`, `selectInput()`, `dateRangeInput()`
 - `plotOutput()`, `tableOutput()`, `verbatimTextOutput()`
 - Botones, checkboxes, radio buttons
 
-**Layouts responsivos:**
+Layouts responsivos:
 - `fluidPage()`, `sidebarLayout()`
 - `navbarPage()`, `tabsetPanel()`
 - Integración Bootstrap nativa
@@ -53,11 +53,11 @@ shinyApp(ui = ui, server = server)
 
 ## Casos de uso reales
 
-- **Dashboards ejecutivos:** KPIs interactivos con filtros por fecha/segmento
-- **Simuladores:** Monte Carlo, pronósticos financieros, optimización
-- **Exploradores de datos:** Filtrado de tablas con millones de filas
-- **Mapas interactivos:** `leaflet` + datos R en tiempo real
-- **Reportes dinámicos:** Gráficos que responden a inputs del usuario
+- Dashboards ejecutivos: KPIs interactivos con filtros por fecha/segmento
+- Simuladores:** Monte Carlo, pronósticos financieros, optimización
+- Exploradores de datos: Filtrado de tablas con millones de filas
+- Mapas interactivos: `leaflet` + datos R en tiempo real
+- Reportes dinámicos: Gráficos que responden a inputs del usuario
 
 ## Despliegue
 
@@ -93,9 +93,9 @@ ui <- fluidPage(
     sidebarPanel(
       helpText(
         "Esta app evalúa si el historial de sorteos se comporta como un ",
-        "generador uniforme e independiente. No predice números futuros: ",
-        "los sorteos justos son i.i.d., así que ningún patrón histórico ",
-        "tiene poder predictivo real."
+        "Generador uniforme e independiente. No predice números futuros: ",
+        "Los sorteos justos son i.i.d., así que ningún patrón histórico ",
+        "Tiene poder predictivo real."
       ),
 ...
 ```
