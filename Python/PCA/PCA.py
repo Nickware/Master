@@ -1,11 +1,13 @@
-# Cargando las librerias
-import pandas as pd 
+# Cargando las librerías
+from pathlib import Path
+
+import pandas as pd
 from scipy.io import arff
 from sklearn import preprocessing
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from sklearn.preprocessing import StandardScaler 
+from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import class_weight
@@ -15,14 +17,20 @@ from imblearn.pipeline import Pipeline
 import seaborn as sns
 import joblib
 
+DATA_FILE = Path(__file__).resolve().parents[1] / 'data' / 'seismic-bumps.arff'
+if not DATA_FILE.exists():
+    raise FileNotFoundError(
+        f'No se encontró el dataset en: {DATA_FILE}. '
+        'Verifica la estructura del repositorio.'
+    )
+
 # Configuración de visualización
 plt.style.use('default')
-sns.set_palette("colorblind")
+sns.set_palette('colorblind')
 
 # Cargando los datos
-def load_data(nombres):
-    data = '../data/seismic-bumps.arff'
-    input_data, input_meta = arff.loadarff(data)
+def load_data(nombres, ruta=DATA_FILE):
+    input_data, _ = arff.loadarff(str(ruta))
     df = pd.DataFrame(input_data)
     df.columns = nombres
     return df
