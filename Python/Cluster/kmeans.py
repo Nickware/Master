@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.io import arff
@@ -8,11 +10,20 @@ from sklearn.decomposition import PCA
 from sklearn.feature_selection import mutual_info_classif
 from sklearn.preprocessing import StandardScaler
 
-def load_data(nombres, ruta='../data/seismic-bumps.arff'):
-    input_data, input_meta = arff.loadarff(ruta)
+DATA_FILE = Path(__file__).resolve().parents[1] / 'data' / 'seismic-bumps.arff'
+if not DATA_FILE.exists():
+    raise FileNotFoundError(
+        f'No se encontró el dataset en: {DATA_FILE}. '
+        'Verifica la estructura del repositorio.'
+    )
+
+
+def load_data(nombres, ruta=DATA_FILE):
+    input_data, _ = arff.loadarff(str(ruta))
     df = pd.DataFrame(input_data)
     df.columns = nombres
     return df
+
 
 # Nombres de columnas
 nombres = [
@@ -26,9 +37,9 @@ nombres = [
 df = load_data(nombres)
 
 # Codificar variables categóricas
-cat_cols = ['seismic', 'seismoacoustic', 'shift', 'ghazard', 'clase']
+act_cols = ['seismic', 'seismoacoustic', 'shift', 'ghazard', 'clase']
 le = preprocessing.LabelEncoder()
-for col in cat_cols:
+for col in act_cols:
     df[col] = le.fit_transform(df[col])
 
 # Separar características y variable objetivo
@@ -53,10 +64,11 @@ for i in range(1, 11):
     wcss.append(kmeans.inertia_)
 
 plt.figure(figsize=(10, 8))
-plt.plot(range(1, 11), wcss)
-plt.title('Método del Codo para número óptimo de clusters')
+plt.plot(range(1, 11), wcss, marker='o')
+plt.title('Método del codo para seleccionar el número de clusters')
 plt.xlabel('Número de clusters')
 plt.ylabel('WCSS')
+plt.grid(True, alpha=0.3)
 plt.show()
 
 # Ajustar K-Means con número de clusters elegido (3)
@@ -86,4 +98,7 @@ scatter = ax.scatter(X_pca[:, 0], X_pca[:, 1], X_pca[:, 2], c=y_kmeans, cmap='vi
 legend1 = ax.legend(*scatter.legend_elements(), title='Clusters')
 ax.add_artist(legend1)
 ax.set_title('Visualización 3D de clusters con PCA')
+ax.set_xlabel('PC1')
+ax.set_ylabel('PC2')
+ax.set_zlabel('PC3')
 plt.show()
