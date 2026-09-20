@@ -5,14 +5,35 @@ Esta rutina en Octave (o MATLAB) realiza un análisis y visualización de datos 
 ***
 
 ### Limpieza y lectura de datos
-La primera sección elimina cualquier variable o figura anterior y carga un archivo CSV con los datos de simulación:
+La primera sección elimina cualquier variable o figura anterior y localiza automáticamente el archivo CSV que contiene los datos de simulación. El script prueba varias rutas posibles y usa la primera que exista, de modo que funcione tanto desde la carpeta de Octave como desde la raíz del repositorio:
 
 ```matlab
 clear; close all; clc;
-data = dlmread('octaveData/velocityData.csv', ',', 1, 0);
+
+scriptDir = fileparts(mfilename('fullpath'));
+candidates = {
+    fullfile(scriptDir, 'octaveData', 'velocityData.csv');
+    fullfile(scriptDir, '..', 'C++', 'parabolicChannel', 'octaveData', 'velocityData.csv');
+    fullfile(pwd, 'octaveData', 'velocityData.csv');
+    fullfile(pwd, 'C++', 'parabolicChannel', 'octaveData', 'velocityData.csv');
+};
+
+csvFile = '';
+for i = 1:numel(candidates)
+    if exist(candidates{i}, 'file')
+        csvFile = candidates{i};
+        break;
+    end
+end
+
+if isempty(csvFile)
+    error('No se encontró velocityData.csv. Ejecuta primero el caso de OpenFOAM.');
+end
+
+data = dlmread(csvFile, ',', 1, 0);
 ```
 
-El comando `dlmread` lee el archivo `velocityData.csv`, saltando una fila de encabezado y separando columnas por comas. Los datos suelen contener coordenadas espaciales (x, y, z) y componentes de velocidad $(Ux,Uy,Uz)$ exportados de OpenFOAM.[5][1
+El comando `dlmread` lee el archivo `velocityData.csv`, saltando una fila de encabezado y separando columnas por comas. Los datos suelen contener coordenadas espaciales (x, y, z) y componentes de velocidad $(Ux,Uy,Uz)$ exportados de OpenFOAM. Con esta mejora, el script ya no depende de una carpeta concreta de ejecución y puede resolver la ruta del archivo de forma más robusta.[5][1
 
 ***
 
