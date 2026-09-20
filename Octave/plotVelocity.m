@@ -1,8 +1,31 @@
 % Limpiar workspace
 clear; close all; clc;
 
+% Localizar el archivo CSV en diferentes ubicaciones posibles
+scriptDir = fileparts(mfilename('fullpath'));
+candidates = {
+    fullfile(scriptDir, 'octaveData', 'velocityData.csv');
+    fullfile(scriptDir, '..', 'C++', 'parabolicChannel', 'octaveData', 'velocityData.csv');
+    fullfile(pwd, 'octaveData', 'velocityData.csv');
+    fullfile(pwd, 'C++', 'parabolicChannel', 'octaveData', 'velocityData.csv');
+};
+
+csvFile = '';
+for i = 1:numel(candidates)
+    if exist(candidates{i}, 'file')
+        csvFile = candidates{i};
+        break;
+    end
+end
+
+if isempty(csvFile)
+    error(['No se encontró velocityData.csv. Ejecuta primero el caso de OpenFOAM y asegúrate de que exista en una de estas rutas:\n' ...
+           '  - %s\n  - %s\n  - %s\n  - %s'], ...
+           candidates{1}, candidates{2}, candidates{3}, candidates{4});
+end
+
 % Leer datos
-data = dlmread('octaveData/velocityData.csv', ',', 1, 0);
+data = dlmread(csvFile, ',', 1, 0);
 
 % Extraer componentes
 x = data(:,1);
